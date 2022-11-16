@@ -1,4 +1,4 @@
-imprt RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 GPIO_pin_in=5
 GPIO_pin_out=7
