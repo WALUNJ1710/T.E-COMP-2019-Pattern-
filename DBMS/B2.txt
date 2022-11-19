@@ -1,0 +1,15 @@
+db.student.createIndex({Rollno: 1})
+
+db.student.insert({Rollno:1,name:'Navin',subject:'DMSA',marks:78});
+db.student.insert({Rollno:2,name:'anusha',subject:'OSD',marks:75});
+db.student.insert({Rollno:3,name:'ravi',subject:'TOC',marks:69});
+db.student.insert({Rollno:4,name:'veena',subject:'TOC',marks:70});
+db.student.insert({Rollno:5,name:'Pravini',subject:'OSD',marks:80});
+
+db.student.find({Rollno:2}).pretty()
+
+db.student.find({Rollno:{$gt:3}}).pretty()
+
+db.student.aggregate([{$group : {_id : "$subject",marks : {$min : "$marks"}}}]);
+
+db.student.aggregate([{$group : {_id : "$subject",marks : {$max : "$marks"}}}]);

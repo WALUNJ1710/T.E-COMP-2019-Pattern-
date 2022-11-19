@@ -1,0 +1,25 @@
+create table library(author varchar2(10), title varchar2(20));
+
+create table library_audit(author varchar2(10), title varchar2(20));
+
+insert into library values ('A', 'Book1');
+insert into library values ('B', 'Book2');
+insert into library values ('C', 'Book3');
+insert into library values ('D', 'Book4');
+insert into library values ('E', 'Book5');
+
+select * from library;
+
+create trigger check_changes
+before update or delete on library
+for each row
+begin
+insert into library_audit values (:old.author, :old.title);
+end;
+/
+
+update library set author='K' where title='Book4';
+delete from library where title='Book2';
+
+select * from library;
+select * from library_audit;

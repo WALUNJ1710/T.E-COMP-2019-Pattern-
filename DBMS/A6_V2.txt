@@ -1,0 +1,30 @@
+CREATE TABLE Stud_marks(Sname Varchar2(20), Total_Marks Number(5));
+
+CREATE TABLE RESULT(Roll_Number Number(5), Sname Varchar2(20), Sclass Varchar2(20));
+
+CREATE PROCEDURE Proc_Grade2(rno Number, Sname Varchar2, Marks number) as
+
+--DECLARATION
+
+CLASS Varchar2(20);
+
+BEGIN
+    IF (Marks<=1500 and Marks>=990) THEN
+        CLASS := 'DISTINCTION';
+        
+    ELSIF (Marks<=989 and Marks>=900) THEN
+        CLASS := 'FIRST CLASS';
+        
+    ELSIF (Marks<=899 and Marks>=825) THEN
+        CLASS := 'HIGHER SECOND CLASS';
+        
+    END IF;
+    
+    INSERT INTO Stud_Marks values(Sname, Marks);
+    INSERT INTO Result values(rno, Sname, class);
+    
+END;
+/
+exec Proc_Grade2(1, 'Sam', 1350);
+SELECT * FROM Stud_Marks;
+SELECT * FROM Result;

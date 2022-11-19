@@ -1,0 +1,42 @@
+CREATE TABLE Employee(emp_no int(20), emp_name varchar(20), emp_salary int(20), emp_dept varchar(20));
+
+INSERT INTO Employee values(101, 'Sam', 12000, 'Computer');
+
+ALTER TABLE Employee RENAME COLUMN emp_no TO emp_id;
+
+INSERT INTO Employee values(102, 'Rohan', 15000, 'Computer');
+INSERT INTO Employee values(103, 'Ron', 11000, 'Mechanical');
+INSERT INTO Employee values(104, 'Samuel', 9000, 'Mechanical');
+INSERT INTO Employee values(105, 'Mike', 19000, 'Computer');
+INSERT INTO Employee values(106, 'Marc', 185000, 'Computer');
+INSERT INTO Employee values(108, 'Vikki', 10500, 'Computer');
+INSERT INTO Employee values(109, 'Ronaldo', 15500, 'Computer');
+INSERT INTO Employee values(107, 'Jim', 12500, 'Computer');
+
+CREATE VIEW [Computer Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'Computer';
+
+SELECT * FROM [Computer Employee];
+
+CREATE VIEW [Mechanical Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'Mechanical';
+
+SELECT * FROM [Mechanical Employee];
+
+CREATE VIEW [HR Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'HR';
+
+SELECT * FROM [HR Employee];
+
+CREATE VIEW [Electronic Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'Electronic';
+
+SELECT * FROM [Electronic Employee];

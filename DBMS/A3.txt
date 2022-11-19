@@ -1,0 +1,76 @@
+CREATE TABLE Employee(emp_no int(20), emp_name varchar(20), emp_salary int(20), emp_dept varchar(20));
+
+INSERT INTO Employee values(101, 'Sam', 12000, 'Computer');
+
+ALTER TABLE Employee RENAME COLUMN emp_no TO emp_id;
+
+INSERT INTO Employee values(102, 'Rohan', 15000, 'Computer');
+INSERT INTO Employee values(103, 'Ron', 11000, 'Mechanical');
+INSERT INTO Employee values(104, 'Samuel', 9000, 'Mechanical');
+INSERT INTO Employee values(105, 'Mike', 19000, 'Computer');
+INSERT INTO Employee values(106, 'Marc', 185000, 'Computer');
+INSERT INTO Employee values(108, 'Vikki', 10500, 'Computer');
+INSERT INTO Employee values(109, 'Ronaldo', 15500, 'Computer');
+INSERT INTO Employee values(107, 'Jim', 12500, 'Computer');
+
+CREATE VIEW [Computer Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'Computer';
+
+SELECT * FROM [Computer Employee];
+
+CREATE VIEW [Mechanical Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'Mechanical';
+
+SELECT * FROM [Mechanical Employee];
+
+CREATE VIEW [HR Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'HR';
+
+SELECT * FROM [HR Employee];
+
+CREATE VIEW [Electronic Employee] AS
+SELECT emp_id, emp_name
+FROM Employee
+WHERE emp_dept = 'Electronic';
+
+SELECT * FROM [Electronic Employee];
+
+INSERT INTO Employee values(110, 'Mac', 500, 'NaN');
+INSERT INTO Employee values(111, 'James', 900, 'NaN');
+
+UPDATE Employee SET emp_dept = 'Electronic' where emp_name = 'Mac';
+UPDATE Employee SET emp_dept = 'HR' where emp_name = 'James';
+
+INSERT INTO Employee values(112, 'Lisa', 5900, 'NaN');
+
+DELETE FROM Employee where emp_dept = 'NaN';
+
+SELECT emp_name FROM Employee
+WHERE emp_salary > 
+(SELECT emp_salary FROM Employee
+ WHERE emp_id = 104);
+
+CREATE TABLE Employee_data(emp_id int(20), emp_qualification varchar(20), emp_nationality);
+
+INSERT INTO Employee_data values(101,'BE-Computer', 'AMERICAN');
+INSERT INTO Employee_data values(102,'BE-Computer', 'CANADIAN');
+INSERT INTO Employee_data values(103,'BE-Computer', 'CADIAN');
+INSERT INTO Employee_data values(104,'BTECH-Computer', 'AMERICAN');
+INSERT INTO Employee_data values(105,'BTECH-Computer', 'AMERICAN');
+INSERT INTO Employee_data values(106,'BTECH-Computer', 'AMERICAN');
+INSERT INTO Employee_data values(107,'BE-Computer', 'CADIAN');
+INSERT INTO Employee_data values(108,'BE-Computer', 'BRITIAN');
+INSERT INTO Employee_data values(109,'BE-Computer', 'CADIAN');
+INSERT INTO Employee_data values(110,'BE-Computer', 'CADIAN');
+INSERT INTO Employee_data values(111,'BTECH-Computer', 'AMERICAN');
+
+SELECT Employee.emp_name, Employee_data.emp_qualification
+FROM Employee
+JOIN Employee_data
+ON Employee.emp_id = Employee_data.emp_id;

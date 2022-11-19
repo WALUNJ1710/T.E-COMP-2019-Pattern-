@@ -1,0 +1,118 @@
+-- Creating Employee table
+
+CREATE TABLE Employee(E_ID number(20) unique, E_name varchar(20), E_age number(5), E_city varchar(10), E_salary number(10));
+
+-- Inserting values in the Employee Table
+
+INSERT INTO Employee values(1, 'Sam', 25, 'Pune', 12500);
+INSERT INTO Employee values(2, 'Ron', 35, 'Pune', 19500);
+INSERT INTO Employee values(3, 'Rahul', 29, 'Mumbai', 16000);
+INSERT INTO Employee values(4, 'Samuel', 31, 'Kolkata', 19750);
+INSERT INTO Employee values(5, 'Karen', 24, 'Kolkata', 11800);
+
+-- Displaying table
+
+SELECT * FROM Employee order by E_ID ASC;
+
+-- Implicit Cursor
+
+/* Implicit cursors are automatically created by Oracle whenever an SQL statement is executed, when there is no explicit cursor for the 
+statement. Programmers cannot control the implicit cursors and the information in it. */
+
+
+/* The following program will update the table and increase the salary of each customer by 500 and use the SQL%ROWCOUNT attribute to
+determine the number of rows affected. */
+
+-- %notfound: It returns TRUE if an INSERT, UPDATE, or DELETE statement affects no rows.
+-- %found: Returns TRUE if an INSERT, UPDATE, or DELETE statement affects one or more rows.
+-- %rowcount: Returns the number of rows affected by an INSERT, UPDATE, or DELETE statement, or returned by a SELECT INTO statement.
+
+DECLARE
+    total_rows number(2);
+    
+BEGIN
+-- Lets update E_salary from Employee Table and decrease the employees salary by 500.
+    UPDATE Employee
+    SET E_salary = E_salary - 500;
+    IF sql%notfound THEN
+        dbms_output.put_line('No Employee Selected');
+    ELSIF sql%found THEN
+        total_rows := sql%rowcount;
+        dbms_output.put_line(total_rows || ' Employees Selected');
+    END IF;
+END;
+/
+
+-- Explicit Cursor
+
+/* Explicit cursors are programmer-defined cursors for gaining more control over the context area. An explicit cursor should be defined in
+the declaration section of the PL/SQL Block. */
+
+/* 
+Working with an explicit cursor includes the following steps:
+    1. Declaring the cursor for initializing the memory
+    2. Opening the cursor for allocating the memory
+    3. Fetching the cursor for retrieving the data
+    4. Closing the cursor to release the allocated memory. 
+*/
+
+DECLARE
+    emp_id Employee.e_id%type;
+    emp_name Employee.e_name%type;
+    emp_ct Employee.e_city%type;
+    
+    CURSOR e_employee is
+        SELECT E_id, E_name, E_city FROM Employee;
+        
+BEGIN
+    OPEN e_employee;
+    LOOP
+    FETCH e_employee into emp_id, emp_name, emp_ct;
+        EXIT WHEN e_employee%notfound;
+        dbms_output.put_line(emp_id || ' ' || emp_name || ' ' || emp_ct);
+    END LOOP;
+    CLOSE e_employee;
+END;
+/
+
+-- Parameterized Cursor for salary greater than 12,000.
+
+/* Parameterized cursors are static cursors that can accept passed-in parameter values when they are opened.
+
+If 2000 is passed in as the value of salary, only the name and salary data for those employees whose salary is greater than 12000 is
+returned. */
+
+-- Parameterized cursors can only reference its own parameters.
+-- Parameterized cursors cannot reference local variables.
+
+DECLARE
+    emp_salary employee%rowtype;
+    CURSOR give_sal(salary NUMBER) IS
+        SELECT * FROM employee WHERE E_salary > salary;
+        
+BEGIN
+    OPEN give_sal(12000);
+    LOOP
+        FETCH give_sal INTO emp_salary;
+        EXIT WHEN give_sal%notfound;
+        dbms_output.put_line('Name = '|| emp_salary.E_name || ', Salary = '|| emp_salary.e_salary);
+    END LOOP;
+    CLOSE give_sal;
+END;
+
+-- Parameterized Cursor for salary greater than 15,000.
+
+DECLARE
+    emp_salary employee%rowtype;
+    CURSOR give_sal(salary NUMBER) IS
+        SELECT * FROM employee WHERE E_salary > salary;
+        
+BEGIN
+    OPEN give_sal(15000);
+    LOOP
+        FETCH give_sal INTO emp_salary;
+        EXIT WHEN give_sal%notfound;
+        dbms_output.put_line('Name = '|| emp_salary.E_name || ', Salary = '|| emp_salary.e_salary);
+    END LOOP;
+    CLOSE give_sal;
+END;

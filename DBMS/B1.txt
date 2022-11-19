@@ -1,0 +1,16 @@
+db.student.insertOne({
+    name:'Sahil',
+    age:21,
+    branch:'Computer',
+    course:'BE',
+    mode:'Offline',
+    paid: true,
+    amount:500
+})
+db.student.find().pretty()
+
+db.updateOne({name:'Sahil'},{$set:{amount:5000}})
+db.student.find().pretty()
+
+db.student.deleteOne({name:'Sahil'})
+db.student.find().pretty()

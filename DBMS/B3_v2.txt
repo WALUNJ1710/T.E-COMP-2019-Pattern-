@@ -1,0 +1,12 @@
+db.student.save({'student':'Sahil', 'subject':'English'})
+db.student.save({'student':'Sahil', 'subject':'Maths'})
+db.student.save({'student':'Ron', 'subject':'Marathi'})
+db.student.save({'student':'Ron', 'subject':'English'})
+
+
+db.student.mapReduce(
+    function() {emit(this.student,1)},
+    function(key, values){return Array.sum(values)},
+    {out:'test'})
+
+db.test.find()
